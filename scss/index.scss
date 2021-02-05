@@ -1,0 +1,11 @@
+@import "~bootswatch/dist/darkly/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/darkly/bootswatch";
+
+.product-amount {
+  border: 0px solid transparent;
+  background-color: transparent;
+  color: $body-color;
+  padding: 0px;
+  max-width: 4rem;
+}
