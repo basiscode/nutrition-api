@@ -9,7 +9,7 @@ const el = {
     'searchBtn':    document.getElementById('btn-search')
 }
 
-const productSearch = new ProductSearch(el.searchInput, el.searchBtn);
+const productSearch = new ProductSearch(el.searchInput, el.searchBtn)
 
-productSearch.init();
+productSearch.init()
 
