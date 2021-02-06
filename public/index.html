@@ -4,15 +4,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="./dist/main.css" />
-
-    <title>Usage of Nutrion API</title>
+    <title>Usage of Nutriton API</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Nährwertrechner</a>
+      <a class="navbar-brand" href="#">Nutriton Calculator</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -32,24 +30,18 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              Neues Produkt hinzufügen:
+              Add new product
             </div>
             <div class="card-body">
               <form>
                 <div class="form-group">
-                  <label for="productSearchInput">Produkt suchen:</label>
+                  <label for="productSearchInput">Search Product:</label>
                   <input type="text" class="form-control" id="productSearchInput" />
                 </div>
-                <button id="btn-search" type="submit" class="btn btn-primary">Suchen!</button>
+                <button id="btn-search" type="submit" class="btn btn-primary">Search!</button>
               </form>
             </div>
             <div class="list-group list-group-flush" id="product-search-results">
-                <a href="#" class="list-group-item list-group-item-action">
-                    Banana
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    Honey
-                </a>
             </div>
           </div>
         </div>
@@ -57,13 +49,13 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              Produkte:
+              Pruducts:
             </div>
             <table class="table mb-0">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th style="width: 8rem">Menge (in g)</th>
+                  <th style="width: 8rem">Amount (in g)</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,24 +75,23 @@
           </div>
           <div class="card mt-2">
             <div class="card-header">
-              Nährwerte:
+              Nutriens:
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                Kohlenhydrate: <span>0</span>g
+                Carbohydrate: <span>0</span>g
               </li>
               <li class="list-group-item">
                 Protein: <span>0</span>g
               </li>
               <li class="list-group-item">
-                Fett: <span>0</span>g
+                Fatty acids: <span>0</span>g
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-
     <script type="text/javascript" src="./dist/main.js"></script>
   </body>
 </html>
