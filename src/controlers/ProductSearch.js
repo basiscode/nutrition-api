@@ -1,7 +1,8 @@
 "use strict"
 
 const { isSet } = require('lodash')
-const {search} = require('../api/product.js')
+const {search} = require('../api/product')
+const {on} = require ('../utils/dom')
 
 /**
  * 
@@ -10,17 +11,25 @@ const {search} = require('../api/product.js')
  * @param {HTMLDivElement} resultElement 
  */
 function ProductSearch(inputElement, buttonElement, resultElement) {
-    this.inputElement = inputElement
-    this.buttonElement = buttonElement
-    this.resultElement = resultElement
+  this.inputElement = inputElement
+  this.buttonElement = buttonElement
+  this.resultElement = resultElement
 }
 
 ProductSearch.prototype.init = function() {
-    this.buttonElement.addEventListener('click', (event) => {
-        const searchTerm = this.inputElement.value
-        event.preventDefault()
-        this.runSearch(searchTerm)
-    })
+  
+  this.buttonElement.addEventListener('click', (event) => {
+    const searchTerm = this.inputElement.value
+    event.preventDefault()
+    this.runSearch(searchTerm)
+ })
+
+ on('.bc-product-search-result-item', 'click', (event) => {
+   const fdcId = event.handleObj.getAttribute('data-bc-fdcid')
+   event.originalEvent.preventDefault();
+   console.log(fdcId)
+ })
+
 } 
 
 /**
@@ -33,7 +42,6 @@ ProductSearch.prototype.runSearch = function runSearch(searchTerm) {
       //clear list
       this.resultElement.innerHTML = ""; 
 
-      console.log(results)
       //add results as list-items
       for (const result of results) {
         const listItem = document.createElement('a')
