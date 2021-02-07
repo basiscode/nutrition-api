@@ -14,3 +14,7 @@ const productSearch = new ProductSearch(el.searchInput, el.searchBtn, el.resultL
 
 productSearch.init()
 
+productSearch.events.on('productSelected', (fbcId) => {
+    //alert("fbcId: " + fbcId)
+})
+

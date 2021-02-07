@@ -2,7 +2,8 @@
 
 const { isSet } = require('lodash')
 const {search} = require('../api/product')
-const {on} = require ('../utils/dom')
+const {on} = require('../utils/dom')
+const EventEmitter = require('EventEmitter3' )
 
 /**
  * 
@@ -14,6 +15,8 @@ function ProductSearch(inputElement, buttonElement, resultElement) {
   this.inputElement = inputElement
   this.buttonElement = buttonElement
   this.resultElement = resultElement
+
+  this.events = new EventEmitter()
 }
 
 ProductSearch.prototype.init = function() {
@@ -27,9 +30,8 @@ ProductSearch.prototype.init = function() {
  on('.bc-product-search-result-item', 'click', (event) => {
    const fdcId = event.handleObj.getAttribute('data-bc-fdcid')
    event.originalEvent.preventDefault();
-   console.log(fdcId)
+   this.events.emit('productSelected', fdcId)
  })
-
 } 
 
 /**
