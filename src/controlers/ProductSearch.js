@@ -3,7 +3,7 @@
 const { isSet } = require('lodash')
 const {search} = require('../api/product')
 const {on} = require('../utils/dom')
-const EventEmitter = require('EventEmitter3' )
+const EventEmitter = require('EventEmitter3')
 
 /**
  * 

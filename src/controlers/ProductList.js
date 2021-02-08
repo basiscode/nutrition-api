@@ -3,6 +3,11 @@
 const { info } = require("../api/product")
 const { on } = require("../utils/dom")
 const addProductTemplate = require("../templates/productlist/productitem.ejs")
+const EventEmitter = require('EventEmitter3')
+
+const PROTEIN = "203";
+const FATTY_ACIDS = "204";
+const CARBOHYDRATE = "205";
 
 /**
  * 
@@ -11,6 +16,7 @@ const addProductTemplate = require("../templates/productlist/productitem.ejs")
 function ProductList(producHtmlList) {
   this.products = []
   this.producHtmlList = producHtmlList
+  this.events = new EventEmitter()
 }
 
 ProductList.prototype.init = function() {
@@ -29,16 +35,73 @@ ProductList.prototype.init = function() {
   })
 }
 
-ProductList.prototype.updateAmount = function(productId, newAmount) {
-  console.log("update", productId, "to", newAmount)
+ProductList.prototype.emitNutrients = function() {
+  const nutrients = this.getNutrients()
+  this.events.emit('nutrientChange', nutrients)
+}
 
+ProductList.prototype.updateAmount = function(productId, newAmount) {
   for (const item of this.products) {
     if(item.product['fdcId'] == productId) {
       item['amount'] = newAmount 
       break
     }
   }
-  console.log(this.products)
+  this.emitNutrients()  
+}
+
+ProductList.prototype.getNutrients = function() {
+  const returnNutrients = {
+    carbohydrate : 0,
+    protein: 0,
+    fattyAcids : 0
+  }
+
+  for (const productitem of this.products) {
+    const productNutrients = this.getNutrientsForProduct(productitem)
+    returnNutrients.carbohydrate += productNutrients.carbohydrate
+    returnNutrients.protein += productNutrients.protein
+    returnNutrients.fattyAcids += productNutrients.fattyAcids
+  }
+  return returnNutrients;
+}
+
+ProductList.prototype.getNutrientsForProduct = function(productitem) {
+
+  const returnNutrients = {
+    carbohydrate : 0,
+    protein: 0,
+    fattyAcids : 0
+  }
+  
+  const amount = productitem.amount;
+  
+  // in case some values from API are not complete
+  if (productitem.product.hasOwnProperty('foodNutrients')) {
+    const nutrients = productitem.product['foodNutrients'];
+  
+    // get nutrients for 100g
+    for (const nutrient of nutrients) {
+      switch (nutrient.nutrient.number) {
+        case FATTY_ACIDS:
+          returnNutrients['fattyAcids'] = nutrient.amount
+          break;
+        case PROTEIN:
+          returnNutrients['protein'] = nutrient.amount
+          break;
+        case CARBOHYDRATE:
+          returnNutrients['carbohydrate'] = nutrient.amount
+          break;
+      }
+    } 
+  }
+
+  // calculate nutrients for real amount
+  returnNutrients['carbohydrate'] = (returnNutrients['carbohydrate']/100) * amount
+  returnNutrients['protein'] = (returnNutrients['protein']/100) * amount
+  returnNutrients['fattyAcids'] = (returnNutrients['fattyAcids']/100) * amount
+
+  return returnNutrients;
 }
 
 ProductList.prototype.removeProduct = function(productId) {
@@ -56,7 +119,7 @@ ProductList.prototype.removeProduct = function(productId) {
   const htmlListItem = document.querySelector("#bc-product-list tr[data-bc-fdcid='"+productId+"']")
   htmlListItem.remove()
 
-  console.log(this.products)
+  this.emitNutrients()  
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
@@ -71,6 +134,7 @@ ProductList.prototype.addProduct = function(fdcId) {
         product,
         amount: 100
       })
+      this.emitNutrients()  
     })
 }
 
