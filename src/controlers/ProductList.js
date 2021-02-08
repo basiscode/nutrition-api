@@ -14,18 +14,40 @@ function ProductList(producHtmlList) {
 }
 
 ProductList.prototype.init = function() {
+
+  //event: Click on Remove-Button
   on('.bc-product-list-remove-button','click', (event) => {
-    const productId = parseInt(event.handleObj.getAttribute("data-bc-fdcid"))
+    const productId = parseInt(event.handleObj.getAttribute("data-bc-fdcid"), 10)
     this.removeProduct(productId)
   })
+
+  //event: Change amount of product
+  on('.bc-product-list-amount', 'change', (event) => {
+    const productId = parseInt(event.handleObj.getAttribute("data-bc-fdcid"), 10)
+    const value = event.handleObj.value
+    this.updateAmount(productId, value)
+  })
 }
+
+ProductList.prototype.updateAmount = function(productId, newAmount) {
+  console.log("update", productId, "to", newAmount)
+
+  for (const item of this.products) {
+    if(item.product['fdcId'] == productId) {
+      item['amount'] = newAmount 
+      break
+    }
+  }
+  console.log(this.products)
+}
+
 ProductList.prototype.removeProduct = function(productId) {
     
   //remove from products
   for(const index in this.products) {
-    const product = this.products[index]
-    if (product['fdcId'] == productId) {
-      this.products.splice(index, 1);
+    const item = this.products[index]
+    if (item.product['fdcId'] == productId) {
+      this.products.splice(index, 1)
       break
     }
   }
@@ -33,17 +55,22 @@ ProductList.prototype.removeProduct = function(productId) {
   // remove from productHtmlList
   const htmlListItem = document.querySelector("#bc-product-list tr[data-bc-fdcid='"+productId+"']")
   htmlListItem.remove()
+
+  console.log(this.products)
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
   info(fdcId)
-    .then((productInfo) => {
+    .then((product) => {
       const productHtml = addProductTemplate({
-        productname: productInfo["description"],
-        productid: productInfo["fdcId"]
+        productname: product["description"],
+        productid: product["fdcId"]
       })
       this.producHtmlList.insertAdjacentHTML("beforeend", productHtml)
-      this.products.push(productInfo)
+      this.products.push({
+        product,
+        amount: 100
+      })
     })
 }
 

@@ -29,7 +29,7 @@ ProductSearch.prototype.init = function() {
 
  on('.bc-product-search-result-item', 'click', (event) => {
    const fdcId = event.handleObj.getAttribute('data-bc-fdcid')
-   event.originalEvent.preventDefault();
+   event.originalEvent.preventDefault()
    this.events.emit('productSelected', fdcId)
  })
 } 
@@ -42,25 +42,25 @@ ProductSearch.prototype.runSearch = function runSearch(searchTerm) {
   search(searchTerm)
     .then((results) => {
       //clear list
-      this.resultElement.innerHTML = ""; 
+      this.resultElement.innerHTML = ""
 
       //add results as list-items
       for (const result of results) {
         const listItem = document.createElement('a')
         listItem.classList.add('list-group-item','list-group-item-action')
         listItem.classList.add('bc-product-search-result-item')
-        listItem.setAttribute('href', '#');
-        listItem.setAttribute('data-bc-fdcid', result['fdcId']);
+        listItem.setAttribute('href', '#')
+        listItem.setAttribute('data-bc-fdcid', result['fdcId'])
 
         const label = result['description'] 
         if ('brandOwner' in result) {
-          label = label + " (" + result['brandOwner'] + ')';
+          label = label + " (" + result['brandOwner'] + ')'
         }
         const itemText = document.createTextNode(label)
 
         listItem.appendChild(itemText)
 
-        this.resultElement.append(listItem);
+        this.resultElement.append(listItem)
       }
     })
 }

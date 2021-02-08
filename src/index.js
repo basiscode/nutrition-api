@@ -17,9 +17,9 @@ const productList = new ProductList(el.productList)
  
 productSearch.init()
 productList.init()
-productList.addProduct(1006981);
+productList.addProduct(1006981)
 
 productSearch.events.on('productSelected', (fbcId) => {
-    productList.addProduct(fbcId);
+    productList.addProduct(fbcId)
 })
 
