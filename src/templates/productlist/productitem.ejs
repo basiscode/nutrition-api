@@ -1,10 +1,10 @@
-<tr>
+<tr data-bc-fdcid="<%= productid %>">
     <td>
       <span><%= productname %></span>
     </td>
     <td>
       <input class="product-amount" type="number" value="0" min="0" />
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <button data-bc-fdcid="<%= productid %>" type="button" class="close bc-product-list-remove-button" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </td>
