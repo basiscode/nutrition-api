@@ -5,9 +5,9 @@ const { on } = require("../utils/dom")
 const addProductTemplate = require("../templates/productlist/productitem.ejs")
 const EventEmitter = require('EventEmitter3')
 
-const PROTEIN = "203";
-const FATTY_ACIDS = "204";
-const CARBOHYDRATE = "205";
+const PROTEIN = "203"
+const FATTY_ACIDS = "204"
+const CARBOHYDRATE = "205"
 
 /**
  * 
@@ -78,20 +78,20 @@ ProductList.prototype.getNutrientsForProduct = function(productitem) {
   
   // in case some values from API are not complete
   if (productitem.product.hasOwnProperty('foodNutrients')) {
-    const nutrients = productitem.product['foodNutrients'];
+    const nutrients = productitem.product['foodNutrients']
   
     // get nutrients for 100g
     for (const nutrient of nutrients) {
       switch (nutrient.nutrient.number) {
         case FATTY_ACIDS:
           returnNutrients['fattyAcids'] = nutrient.amount
-          break;
+          break
         case PROTEIN:
           returnNutrients['protein'] = nutrient.amount
-          break;
+          break
         case CARBOHYDRATE:
           returnNutrients['carbohydrate'] = nutrient.amount
-          break;
+          break
       }
     } 
   }
@@ -101,7 +101,7 @@ ProductList.prototype.getNutrientsForProduct = function(productitem) {
   returnNutrients['protein'] = (returnNutrients['protein']/100) * amount
   returnNutrients['fattyAcids'] = (returnNutrients['fattyAcids']/100) * amount
 
-  return returnNutrients;
+  return returnNutrients
 }
 
 ProductList.prototype.removeProduct = function(productId) {
@@ -135,6 +135,9 @@ ProductList.prototype.addProduct = function(fdcId) {
         amount: 100
       })
       this.emitNutrients()  
+    })
+    .catch((err) => {
+      alert("Product could not be added to List. Please try again later.")
     })
 }
 

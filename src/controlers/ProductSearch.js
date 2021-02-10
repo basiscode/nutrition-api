@@ -63,6 +63,9 @@ ProductSearch.prototype.runSearch = function runSearch(searchTerm) {
         this.resultElement.append(listItem)
       }
     })
+    .catch((err) => {
+      alert("Food Search could not be executed at this time. Please try again later.")
+    })
 }
 
 module.exports = ProductSearch
