@@ -20,3 +20,7 @@ module.exports.info = function info(fdcId) {
     .then((response) => response.data)
 }
 
+module.exports.add = function add(a,b) {
+  return a+b
+}
+
