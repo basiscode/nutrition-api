@@ -23,7 +23,7 @@ describe("Product List", () => {
 
       
     })
-    test("it shoul add a product", done => {
+    test("it should add a product", done => {
       productList.addFetchedProduct = function(product) {
         expect(product["fdcId"]).toBe("555")
         done()
@@ -31,10 +31,71 @@ describe("Product List", () => {
       productList.addProduct("555")
     })
 
+    test("it should not add a product if it already exists", () => {
+      productList.addFetchedProduct({
+        description: "Testprodukt",
+        fdcId: "12345",
+        foodNutrients: []
+      })
+      
+      productList.addFetchedProduct = jest.fn()
+      return productList.addProduct("12345")
+        .then(() => {
+          expect(productList.addFetchedProduct).not.toBeCalled()
+        })
+    })
   });
 
-  
+  describe("UpdateAmount", () => {
 
+    beforeEach(() => {
+      productList.products = [ 
+        {
+          amount: 100,
+          product: {
+            fdcId: "12345",
+            foodNutrients: []
+          }
+        },
+        {
+          amount: 200,
+          product: {
+            fdcId: "2345",
+            foodNutrients: []
+          }
+        }
+      ]
+    })
+    
+    const testAmount = "123"
+    const falseFdcId = "9839284123"
+    
+    test("It should update amount in productlist", () => {
+      
+      productList.updateAmount("12345", testAmount);
+      
+      expect(productList.products.length).toBe(2);
+      expect(productList.products[0].amount).toBe(testAmount);
+      expect(productList.products[1].amount).toBe(200);
+    })
+
+    test("It should ignore a fdcId that can't be found", () => {
+      productList.updateAmount(falseFdcId, testAmount);
+      
+      expect(productList.products.length).toBe(2);
+      expect(productList.products[0].amount).toBe(100);
+      expect(productList.products[1].amount).toBe(200);
+    })
+
+    test("It should trigger a nutrientChange event", done => {
+      productList.events.on("nutrientChange", (nutrients) => {
+        done()
+      });
+      productList.updateAmount(falseFdcId, testAmount);
+    })
+  })
+  
+  
   describe("AddFetchedProduct", () => {
     const product = {
       description: "Testprodukt",
@@ -50,7 +111,7 @@ describe("Product List", () => {
 
     test("It should generate correct HTML", () => {
       productList.addFetchedProduct(product);
-      console.log(productHtmlList.innerHTML)
+      
       const htmlTitle = productHtmlList.querySelector("[data-testid='description']")
       const htmlAmount = productHtmlList.querySelector(".bc-product-list-amount")
       const htmlButton = productHtmlList.querySelector(".bc-product-list-remove-button")

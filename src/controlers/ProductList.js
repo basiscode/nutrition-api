@@ -123,7 +123,6 @@ ProductList.prototype.removeProduct = function(productId) {
 }
 
 ProductList.prototype.addFetchedProduct = function(product) {
-  console.log("addFetchedProduct:", product)
   const productHtml = addProductTemplate({
     productname: product["description"],
     productid: product["fdcId"]
@@ -138,8 +137,8 @@ ProductList.prototype.addFetchedProduct = function(product) {
 
 ProductList.prototype.addProduct = function(fdcId) {
   for (const product of this.products) {
-    if (("" + product.product['fbcId']) === ("" + fdcId)) {
-      return;
+    if (("" + product.product['fdcId']) === ("" + fdcId)) {
+      return Promise.resolve();
     }
   }
 
