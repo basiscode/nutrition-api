@@ -1,5 +1,7 @@
 "use strict"
 
+jest.mock("../api/product")
+
 const ProductList = require("./ProductList")
 
 describe("Product List", () => {
@@ -10,6 +12,16 @@ describe("Product List", () => {
     productHtmlList = document.createElement("tbody")
     productList = new ProductList(productHtmlList)
   })
+
+  describe("AddProduct", () => {
+    test("it shoul add a product", done => {
+      productList.addFetchedProduct = function(product) {
+        expect(product["fdcId"]).toBe("555")
+        done()
+      }
+      productList.addProduct("555")
+    })
+  });
 
   describe("AddFetchedProduct", () => {
     const product = {
