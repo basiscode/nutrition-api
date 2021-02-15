@@ -15,6 +15,7 @@ module.exports.search = function search(term) {
 }
 
 module.exports.info = function info(fdcId) {
+  console.log("API - ProduktInfo with fdcId", fdcId)
   return axios
     .get("https://api.nal.usda.gov/fdc/v1/" + fdcId, {auth})
     .then((response) => response.data)

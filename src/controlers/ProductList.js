@@ -122,20 +122,30 @@ ProductList.prototype.removeProduct = function(productId) {
   this.emitNutrients()  
 }
 
+ProductList.prototype.addFetchedProduct = function(product) {
+  console.log("addFetchedProduct:", product)
+  const productHtml = addProductTemplate({
+    productname: product["description"],
+    productid: product["fdcId"]
+  })
+  this.producHtmlList.insertAdjacentHTML("beforeend", productHtml)
+  this.products.push({
+    product,
+    amount: 100
+  })
+  this.emitNutrients()  
+}
+
 ProductList.prototype.addProduct = function(fdcId) {
+  console.log("addProduct:", fdcId)
+  for (const product of this.products) {
+    if (("" + product.product['fbcId']) === ("" + fdcId)) {
+      return;
+    }
+  }
+
   info(fdcId)
-    .then((product) => {
-      const productHtml = addProductTemplate({
-        productname: product["description"],
-        productid: product["fdcId"]
-      })
-      this.producHtmlList.insertAdjacentHTML("beforeend", productHtml)
-      this.products.push({
-        product,
-        amount: 100
-      })
-      this.emitNutrients()  
-    })
+    .then((product) => this.addFetchedProduct(product))
     .catch((err) => {
       alert("Product could not be added to List. Please try again later.")
     })
