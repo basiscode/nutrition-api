@@ -14,6 +14,15 @@ describe("Product List", () => {
   })
 
   describe("AddProduct", () => {
+    test("it should add a product", () => {
+      productList.addFetchedProduct = jest.fn()
+      return productList.addProduct("555").then(() => {
+        expect(productList.addFetchedProduct).toBeCalled()
+        expect(productList.addFetchedProduct.mock.calls.length).toBe(1)
+      })
+
+      
+    })
     test("it shoul add a product", done => {
       productList.addFetchedProduct = function(product) {
         expect(product["fdcId"]).toBe("555")
@@ -21,7 +30,10 @@ describe("Product List", () => {
       }
       productList.addProduct("555")
     })
+
   });
+
+  
 
   describe("AddFetchedProduct", () => {
     const product = {

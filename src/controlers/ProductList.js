@@ -137,14 +137,13 @@ ProductList.prototype.addFetchedProduct = function(product) {
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
-  console.log("addProduct:", fdcId)
   for (const product of this.products) {
     if (("" + product.product['fbcId']) === ("" + fdcId)) {
       return;
     }
   }
 
-  info(fdcId)
+  return info(fdcId)
     .then((product) => this.addFetchedProduct(product))
     .catch((err) => {
       alert("Product could not be added to List. Please try again later.")
