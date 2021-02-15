@@ -18,10 +18,9 @@ ProductNutrient.prototype.init = function() {
 }
 
 ProductNutrient.prototype.update = function(nutrients) {
-  this.carb.innerText = (nutrients.carbohydrate).toFixed(2)
-  this.protein.innerText = (nutrients.protein).toFixed(2)
-  this.fat.innerText = (nutrients.fattyAcids).toFixed(2)
+  this.carb.textContent = (nutrients.carbohydrate).toFixed(2)
+  this.protein.textContent = (nutrients.protein).toFixed(2)
+  this.fat.textContent = (nutrients.fattyAcids).toFixed(2)
 }
-
 
 module.exports = ProductNutrient
